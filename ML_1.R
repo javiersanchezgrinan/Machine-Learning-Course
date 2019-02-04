@@ -127,4 +127,22 @@ y_hat <- sample(c("Male", "Female"), length(test_index), replace = TRUE)%>%facto
 y_hat
 class(y_hat)
 mean(y_hat == test_set)
-class(test_set$sex)
+class(test_set)
+
+'//////////////////INVESTIGANDO HE LLEGADO A QUE EL MODELO PREDICTIVO ES MUCHO MAS SENCILLO SIMPLEMENTE SI TYPE ES "inclass" predecimos sex "female"//////////////////'
+'La respuesta se obtiene con estas lineas de código sin aplicar lo anterior pero me sirve para aprender a hacer conversiones a factor para la medicion de accuracy'
+forecast <- dat %>% mutate(y_hat=ifelse(type=='inclass','Female','Male'))
+forecast
+mean(forecast$sex==forecast$y_hat)
+
+
+'QUESTION 3'
+
+
+
+
+
+
+
+
+
