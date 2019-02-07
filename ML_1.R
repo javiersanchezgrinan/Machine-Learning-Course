@@ -135,14 +135,20 @@ forecast <- dat %>% mutate(y_hat=ifelse(type=='inclass','Female','Male'))
 forecast
 mean(forecast$sex==forecast$y_hat)
 
-
+forecast <- dat %>% mutate(predict=ifelse(type=='inclass','Female','Male'))%>%select(predict)
+forecast 
+y_hat <- factor(forecast$predict, c("Female", "Male"))
 'QUESTION 3'
 
+table(forecast$sex,forecast$y_hat)
 
+y
+y_hat
 
+table(predicted=y_hat,actual=y)
 
+table(prediction = y_hat,truth = y)
 
-
-
+confusionMatrix(data=y_hat,reference=y)
 
 
