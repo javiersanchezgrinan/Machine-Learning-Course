@@ -117,3 +117,194 @@ RMSDs
 mean(RMSDs)
 sd(RMSDs)
 
+'Q4'
+
+n <- 100
+set.seed(1)
+Sigma <- 9*matrix(c(1.0, 0.95, 0.95, 1.0), 2, 2)
+dat <- MASS::mvrnorm(n = 100, c(69, 69), Sigma) %>%
+  data.frame() %>% setNames(c("x", "y"))
+y <- dat$y
+set.seed(1)
+RMSDs <- replicate(100,{
+  test_index <- createDataPartition(y,times=1,p=0.5,list=FALSE)
+  test <- dat %>% slice(test_index)
+  train <- dat %>% slice(-test_index)
+  fit <- lm(y~x,data = train)
+  y_hat <- predict(fit,test)
+  sqrt(mean((y_hat-test$y)^2))
+})
+mean(RMSDs)
+sd(RMSDs)
+
+'Q6'
+
+'y~x_1'
+
+set.seed(1)
+n <- 1000
+Sigma <- matrix(c(1.0, 0.75, 0.75, 0.75, 1.0, 0.25, 0.75, 0.25, 1.0), 3, 3)
+dat <- MASS::mvrnorm(n = 100, c(0, 0, 0), Sigma) %>%
+  data.frame() %>% setNames(c("y", "x_1", "x_2"))
+cor(dat)
+
+y <- dat$y
+set.seed(1)
+RMSDs <- replicate(100,{
+  test_index <- createDataPartition(y,times=1,p=0.5,list=FALSE)
+  test <- dat %>% slice(test_index)
+  train <- dat %>% slice(-test_index)
+  fit <- lm(y~x_1,data = train)
+  y_hat <- predict(fit,test)
+  sqrt(mean((y_hat-test$y)^2))
+})
+mean(RMSDs)
+sd(RMSDs)
+
+'y~x_2'
+
+
+set.seed(1)
+n <- 1000
+Sigma <- matrix(c(1.0, 0.75, 0.75, 0.75, 1.0, 0.25, 0.75, 0.25, 1.0), 3, 3)
+dat <- MASS::mvrnorm(n = 100, c(0, 0, 0), Sigma) %>%
+  data.frame() %>% setNames(c("y", "x_1", "x_2"))
+cor(dat)
+
+y <- dat$y
+set.seed(1)
+RMSDs <- replicate(100,{
+  test_index <- createDataPartition(y,times=1,p=0.5,list=FALSE)
+  test <- dat %>% slice(test_index)
+  train <- dat %>% slice(-test_index)
+  fit <- lm(y~x_2,data = train)
+  y_hat <- predict(fit,test)
+  sqrt(mean((y_hat-test$y)^2))
+})
+mean(RMSDs)
+sd(RMSDs)
+
+'y~x_1~x_2'
+
+
+set.seed(1)
+n <- 1000
+Sigma <- matrix(c(1.0, 0.75, 0.75, 0.75, 1.0, 0.25, 0.75, 0.25, 1.0), 3, 3)
+dat <- MASS::mvrnorm(n = 100, c(0, 0, 0), Sigma) %>%
+  data.frame() %>% setNames(c("y", "x_1", "x_2"))
+cor(dat)
+
+y <- dat$y
+set.seed(1)
+RMSDs <- replicate(100,{
+  test_index <- createDataPartition(y,times=1,p=0.5,list=FALSE)
+  test <- dat %>% slice(test_index)
+  train <- dat %>% slice(-test_index)
+  fit <- lm(y~x_1+x_2,data = train)
+  y_hat <- predict(fit,test)
+  sqrt(mean((y_hat-test$y)^2))
+})
+mean(RMSDs)
+sd(RMSDs)
+
+
+' no replication of data / n<-1000 no sirve de nada'
+set.seed(1)
+n <- 1000
+Sigma <- matrix(c(1.0, 0.75, 0.75, 0.75, 1.0, 0.25, 0.75, 0.25, 1.0), 3, 3)
+dat <- MASS::mvrnorm(n = 100, c(0, 0, 0), Sigma) %>%
+  data.frame() %>% setNames(c("y", "x_1", "x_2"))
+cor(dat)
+y <- dat$y
+set.seed(1)
+test_index <- createDataPartition(y,times=1,p=0.5,list=FALSE)
+test <- dat %>% slice(test_index)
+train <- dat %>% slice(-test_index)
+fit <- lm(y~x_1,data = train)
+y_hat <- predict(fit,test)
+sqrt(mean((y_hat-test$y)^2))
+
+
+
+
+
+set.seed(1)
+n <- 1000
+Sigma <- matrix(c(1.0, 0.75, 0.75, 0.75, 1.0, 0.25, 0.75, 0.25, 1.0), 3, 3)
+dat <- MASS::mvrnorm(n = 100, c(0, 0, 0), Sigma) %>%
+  data.frame() %>% setNames(c("y", "x_1", "x_2"))
+cor(dat)
+y <- dat$y
+set.seed(1)
+test_index <- createDataPartition(y,times=1,p=0.5,list=FALSE)
+test <- dat %>% slice(test_index)
+train <- dat %>% slice(-test_index)
+fit <- lm(y~x_2,data = train)
+y_hat <- predict(fit,test)
+sqrt(mean((y_hat-test$y)^2))
+
+
+
+
+
+
+set.seed(1)
+n <- 1000
+Sigma <- matrix(c(1.0, 0.75, 0.75, 0.75, 1.0, 0.25, 0.75, 0.25, 1.0), 3, 3)
+dat <- MASS::mvrnorm(n = 100, c(0, 0, 0), Sigma) %>%
+  data.frame() %>% setNames(c("y", "x_1", "x_2"))
+cor(dat)
+
+  y <- dat$y
+  set.seed(1)
+  test_index <- createDataPartition(y,times=1,p=0.5,list=FALSE)
+  test <- dat %>% slice(test_index)
+  train <- dat %>% slice(-test_index)
+  fit <- lm(y~x_1+x_2,data = train)
+  y_hat <- predict(fit,test)
+  sqrt(mean((y_hat-test$y)^2))
+
+  'Q8'
+  set.seed(1)
+  n <- 1000
+  Sigma <- matrix(c(1.0, 0.75, 0.75, 0.75, 1.0, 0.95, 0.75, 0.95, 1.0), 3, 3)
+  dat <- MASS::mvrnorm(n = 100, c(0, 0, 0), Sigma) %>%
+    data.frame() %>% setNames(c("y", "x_1", "x_2"))
+  y <- dat$y
+  cor(dat)
+  set.seed(1)
+  test_index <- createDataPartition(y,times=1,p=0.5,list=FALSE)
+  test <- dat %>% slice(test_index)
+  train <- dat %>% slice(-test_index)
+  fit <- lm(y~x_1,data = train)
+  y_hat <- predict(fit,test)
+  sqrt(mean((y_hat-test$y)^2))
+  
+  set.seed(1)
+  n <- 1000
+  Sigma <- matrix(c(1.0, 0.75, 0.75, 0.75, 1.0, 0.95, 0.75, 0.95, 1.0), 3, 3)
+  dat <- MASS::mvrnorm(n = 100, c(0, 0, 0), Sigma) %>%
+    data.frame() %>% setNames(c("y", "x_1", "x_2"))
+  y <- dat$y
+  set.seed(1)
+  test_index <- createDataPartition(y,times=1,p=0.5,list=FALSE)
+  test <- dat %>% slice(test_index)
+  train <- dat %>% slice(-test_index)
+  fit <- lm(y~x_2,data = train)
+  y_hat <- predict(fit,test)
+  sqrt(mean((y_hat-test$y)^2))
+  
+  
+  set.seed(1)
+  n <- 1000
+  Sigma <- matrix(c(1.0, 0.75, 0.75, 0.75, 1.0, 0.95, 0.75, 0.95, 1.0), 3, 3)
+  dat <- MASS::mvrnorm(n = 100, c(0, 0, 0), Sigma) %>%
+    data.frame() %>% setNames(c("y", "x_1", "x_2"))
+  y <- dat$y
+  set.seed(1)
+  test_index <- createDataPartition(y,times=1,p=0.5,list=FALSE)
+  test <- dat %>% slice(test_index)
+  train <- dat %>% slice(-test_index)
+  fit <- lm(y~x_1+x_2,data = train)
+  y_hat <- predict(fit,test)
+  sqrt(mean((y_hat-test$y)^2))
