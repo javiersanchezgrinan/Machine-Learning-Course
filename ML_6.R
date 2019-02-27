@@ -41,8 +41,8 @@ accuracy <- function(x){
   y_hat <- factor(ifelse(p_hat_logit > 0.5, 1, 0))
   y_hat
   return(mean(y_hat==test$y))}
-  c <- sapply(delta,accuracy)
-  c
-  data.frame(delta, c) %>% 
-    ggplot(aes(delta, c)) + 
+  accur <- sapply(delta,accuracy)
+  accur
+  data.frame(delta, accur) %>% 
+    ggplot(aes(delta, accur)) + 
     geom_point() + geom_line() 
