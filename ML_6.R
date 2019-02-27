@@ -1,3 +1,5 @@
+'Enunciado'
+
 set.seed(2)
 make_data <- function(n = 1000, p = 0.5, 
                       mu_0 = 0, mu_1 = 2, 
@@ -13,16 +15,19 @@ make_data <- function(n = 1000, p = 0.5,
        test = data.frame(x = x, y = as.factor(y)) %>% slice(test_index))
 }
 dat <- make_data()
-head(dat)
 
-'se trata de crear una diferencia numerica entre un conjunto de datos y otro e ir viendo como el accuracy va creciendo a medidad 
-que se van distanciando ambas muestras normales (no hay intersección de datos)'
+
+'se trata de crear una diferencia numerica entre un conjunto de datos y otro
+e ir viendo como el accuracy va creciendo a medidad que se van 
+distanciando ambas muestras normales (no hay intersección de datos)'
+
+
 delta <- seq(0, 3, len=25)
-accuracy <- map_dbl(delta, function(x){
+accuracy <- function(x){
   
   y <- rbinom(1000, 1, 0.5)
   f_0 <- rnorm(1000, 0, 1)
-  f_1 <- rnorm(1000, 2, 1)
+  f_1 <- rnorm(1000, x, 1)
   x <- ifelse(y == 1, f_1, f_0)
   test_index <- createDataPartition(y, times = 1, p = 0.5, list = FALSE)
   train0 <- data.frame(x = x, y = as.factor(y))
@@ -35,8 +40,9 @@ accuracy <- map_dbl(delta, function(x){
   p_hat_logit
   y_hat <- factor(ifelse(p_hat_logit > 0.5, 1, 0))
   y_hat
-  mean(y_hat==test$y)
-                                        })
-
-
-
+  return(mean(y_hat==test$y))}
+  c <- sapply(delta,accuracy)
+  c
+  data.frame(delta, c) %>% 
+    ggplot(aes(delta, c)) + 
+    geom_point() + geom_line() 
