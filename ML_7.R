@@ -1,3 +1,5 @@
+'Enunciado'
+
 library(tidyverse)
 library(purrr)
 library(pdftools)
@@ -28,3 +30,42 @@ dat <- map_df(str_split(pdf_text(fn), "\n"), function(s){
                         "JUL" = 7, "AGO" = 8, "SEP" = 9, "OCT" = 10, "NOV" = 11, "DEC" = 12)) %>%
   mutate(date = make_date(year, month, day)) %>%
   filter(date <= "2018-05-01")
+dat
+
+
+'Q1 empiezo a configurar el modelo de regresion local con loess (teorema de taylor aplicado), usa la funcion tukey tri weight en lugar de una
+funcion gaussiana para calcular el peso de cada punto en el calculo de la regresion local(funciona)'
+
+
+dat<- na.omit(dat)
+nrow(dat)
+total_dates <- nrow(dat)
+span <- 60/total_dates
+span
+fit <- dat %>% mutate(date=as.numeric(date))%>% loess(deaths ~ date , degree=1, span = span, data=.)
+fit
+
+
+dat %>% mutate(smooth = fit$fitted,date=as.numeric(date)) %>%
+  ggplot(aes(date, deaths)) +
+  geom_point(size = 3, alpha = .5, color = "grey") +
+  geom_line(aes(date, smooth), color="red")
+
+'Q2'
+
+dat %>% 
+  mutate(smooth = predict(fit, as.numeric(date)), day = yday(date), year = as.character(year(date))) %>%
+  ggplot(aes(day, smooth, col = year)) +
+  geom_line(lwd = 2)
+
+
+'Q3'
+
+library(broom)
+data("mnist_27")
+mnist_27$train %>% glm(y ~ x_2, family = "binomial", data = .) %>% tidy()
+
+qplot(x_2, y, data = mnist_27$train)
+
+with(mnist_27$train, plot(x_1, x_2, col = as.numeric(y)))
+gplot(x=x_1,y=x_2,col=as.numeric(y))
