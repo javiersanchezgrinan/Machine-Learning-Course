@@ -75,6 +75,11 @@ as.vector(mat)
 as.vector(x)
 qplot(as.vector(x),bins=30,color=I("Black"))
 
+x
+x <- sweep(x, 2, 1:nrow(x),"+")
+x <- sweep(x, 1, 1:nrow(x),"+")
+x[2,]
+
 'Q6'
 
 mnist <- read_mnist()
@@ -92,21 +97,24 @@ avgs
 class(avgs)
 
 qplot(as.vector(MNIST),bins=30,color=I("Black"))
-new_Bin <- as.vector(MNIST)
+new_Bin <- MNIST
+new_Bin
 new_Bin[new_Bin<50]<- 0
 new_Bin[new_Bin>205]<- 0
 new_Bin[new_Bin>=50 & new_Bin<=205]<- 1
-mean(new_Bin)
+avgs <- rowMeans(new_Bin)
+avgs
+mean(avgs)
 
 
-AVGS <- as.matrix(avgs)
-AVGS
-LABELS <- as.matrix(mnist$train$labels)
-LABELS
-AVGS_LABELS <- cbind(AVGS,LABELS) 
+'# install.packages("dslabs",dependences=TRUE) -- use if you havent installed dslabs'
+library(dslabs) 
+mnist<-read_mnist() 
+boxplot(rowMeans(mnist$train$images)~mnist$train$labels) '# average b/w ratio by digit'
+AllPix<-as.vector(mnist$train$images) '# convert matrix to vector'
+hist(AllPix) '# look at distribution of color for all digits at once '
+hist(AllPix[AllPix >50 & AllPix<205]) '# look at distribution of colors defined as grey area'
 
 
-
-AVGS_LABELS %>% ggplot(aes(x=[,2],y=[,1]))
 
 
