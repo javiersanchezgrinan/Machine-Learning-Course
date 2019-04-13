@@ -32,8 +32,46 @@ dat %>%
   ggplot() +
   geom_point(aes(x, y)) +
   geom_step(aes(x, y_hat), col = 2)
-  geom_step(aes(x, y), col = 2)
-  geom_smooth(aes(y_hat, x), col = 2)
-  geom_smooth(aes(x, y_hat), col = 2)
+
+
+
+
+data("tissue_gene_expression")
+
+'HASTA AHORA AS?, PERO QUEREMOS OPTIMIZAR PARAMETROS POR LO QUE FUNCION TRAIN'
+set.seed(1991)
+
+x <- tissue_gene_expression$x
+class(x)
+y <- tissue_gene_expression$y
+class(y)
+grid <-expand.grid(cp=seq(0, 0.1, 0.01))
+class(grid)
+grid
+fit <- train(x, y, method="rpart", tuneGrid = grid) 
+fit$bestTune
+plot(fit)
+confusionMatrix(fit)
+
+
+
+
+
+set.seed(1991)
+
+x <- tissue_gene_expression$x
+class(x)
+y <- tissue_gene_expression$y
+class(y)
+grid <-expand.grid(cp=seq(0, 0.1, 0.01))
+class(grid)
+grid
+fit <- train(x, y, method="rpart", tuneGrid = grid,control= rpart.control(minsplit = 0)) 
+fit$bestTune
+plot(fit)
+confusionMatrix(fit)
+plot(fit$finalModel, margin = 0.1)
+text(fit$finalModel, cex = 0.75)
+
 
 
