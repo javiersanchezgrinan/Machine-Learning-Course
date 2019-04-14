@@ -66,12 +66,47 @@ class(y)
 grid <-expand.grid(cp=seq(0, 0.1, 0.01))
 class(grid)
 grid
-fit <- train(x, y, method="rpart", tuneGrid = grid,control= rpart.control(minsplit = 0)) 
+fit_rpart <- train(x, y, method="rpart", tuneGrid = grid,control= rpart.control(minsplit = 0)) 
 fit$bestTune
-plot(fit)
-confusionMatrix(fit)
-plot(fit$finalModel, margin = 0.1)
-text(fit$finalModel, cex = 0.75)
+plot(fit_rpart)
+confusionMatrix(fit_rpart)
+plot(fit_rpart$finalModel, margin = 0.1)
+text(fit_rpart$finalModel, cex = 0.75)
+
+
+'/////////////////////////////// Q7 /////////////////////////////////'
+
+data("tissue_gene_expression")
+set.seed(1991)
+
+
+x <- tissue_gene_expression$x
+class(x)
+y <- tissue_gene_expression$y
+class(y)
+
+
+grid <-expand.grid(mtry=seq(50, 200, 25))
+class(grid)
+grid
 
 
 
+rf<-train(x, y, method = "rf", tuneGrid = grid, nodsize=1)
+rf$bestTune
+plot(rf)
+
+'/////////////////////////////// Q8 ///////////////////////////////// (el modelo se tiene que llamar fit para obtener la calificacion'
+
+imp <- varImp(rf)
+imp
+
+'/////////////////////////////// Q9 /////////////////////////////////'
+
+tree_terms <- as.character(unique(fit_rpart$finalModel$frame$var[!(fit_rpart$finalModel$frame$var == "<leaf>")]))
+tree_terms
+
+
+
+tree_terms <- as.character(unique(rf$finalModel$frame$var[!(rf$finalModel$frame$var == "<leaf>")]))
+tree_terms
